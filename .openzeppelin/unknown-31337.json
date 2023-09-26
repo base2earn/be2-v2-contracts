@@ -1,0 +1,592 @@
+{
+  "manifestVersion": "3.2",
+  "admin": {
+    "address": "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6",
+    "txHash": "0x90332fe3c68567ef72711db9c454ba73605d0496ae477dace676f7e5a8460afb",
+    "deployTransaction": {
+      "hash": "0x90332fe3c68567ef72711db9c454ba73605d0496ae477dace676f7e5a8460afb",
+      "type": 2,
+      "accessList": [],
+      "blockHash": "0x2c11bf553ec370202ff675a694b8743cc15a3efd01bf44ea4e6c6780dbb81718",
+      "blockNumber": 4163489,
+      "transactionIndex": 0,
+      "confirmations": 1,
+      "from": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+      "gasPrice": {
+        "type": "BigNumber",
+        "hex": "0x3bf19a35"
+      },
+      "maxPriorityFeePerGas": {
+        "type": "BigNumber",
+        "hex": "0x3b9aca00"
+      },
+      "maxFeePerGas": {
+        "type": "BigNumber",
+        "hex": "0x3c486a6a"
+      },
+      "gasLimit": {
+        "type": "BigNumber",
+        "hex": "0x076330"
+      },
+      "to": null,
+      "value": {
+        "type": "BigNumber",
+        "hex": "0x00"
+      },
+      "nonce": 8,
+      "data": "0x608060405234801561001057600080fd5b50600080546001600160a01b031916339081178255604051909182917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0908290a350610759806100616000396000f3fe60806040526004361061007b5760003560e01c80639623609d1161004e5780639623609d1461011157806399a88ec414610124578063f2fde38b14610144578063f3b7dead146101645761007b565b8063204e1c7a14610080578063715018a6146100bc5780637eff275e146100d35780638da5cb5b146100f3575b600080fd5b34801561008c57600080fd5b506100a061009b366004610515565b610184565b6040516001600160a01b03909116815260200160405180910390f35b3480156100c857600080fd5b506100d1610215565b005b3480156100df57600080fd5b506100d16100ee366004610554565b610292565b3480156100ff57600080fd5b506000546001600160a01b03166100a0565b6100d161011f36600461058c565b61031c565b34801561013057600080fd5b506100d161013f366004610554565b6103ad565b34801561015057600080fd5b506100d161015f366004610515565b610405565b34801561017057600080fd5b506100a061017f366004610515565b6104ef565b6000806000836001600160a01b03166040516101aa90635c60da1b60e01b815260040190565b600060405180830381855afa9150503d80600081146101e5576040519150601f19603f3d011682016040523d82523d6000602084013e6101ea565b606091505b5091509150816101f957600080fd5b8080602001905181019061020d9190610538565b949350505050565b6000546001600160a01b031633146102485760405162461bcd60e51b815260040161023f906106c0565b60405180910390fd5b600080546040516001600160a01b03909116907f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0908390a3600080546001600160a01b0319169055565b6000546001600160a01b031633146102bc5760405162461bcd60e51b815260040161023f906106c0565b6040516308f2839760e41b81526001600160a01b038281166004830152831690638f283970906024015b600060405180830381600087803b15801561030057600080fd5b505af1158015610314573d6000803e3d6000fd5b505050505050565b6000546001600160a01b031633146103465760405162461bcd60e51b815260040161023f906106c0565b60405163278f794360e11b81526001600160a01b03841690634f1ef286903490610376908690869060040161065d565b6000604051808303818588803b15801561038f57600080fd5b505af11580156103a3573d6000803e3d6000fd5b5050505050505050565b6000546001600160a01b031633146103d75760405162461bcd60e51b815260040161023f906106c0565b604051631b2ce7f360e11b81526001600160a01b038281166004830152831690633659cfe6906024016102e6565b6000546001600160a01b0316331461042f5760405162461bcd60e51b815260040161023f906106c0565b6001600160a01b0381166104945760405162461bcd60e51b815260206004820152602660248201527f4f776e61626c653a206e6577206f776e657220697320746865207a65726f206160448201526564647265737360d01b606482015260840161023f565b600080546040516001600160a01b03808516939216917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e091a3600080546001600160a01b0319166001600160a01b0392909216919091179055565b6000806000836001600160a01b03166040516101aa906303e1469160e61b815260040190565b600060208284031215610526578081fd5b81356105318161070b565b9392505050565b600060208284031215610549578081fd5b81516105318161070b565b60008060408385031215610566578081fd5b82356105718161070b565b915060208301356105818161070b565b809150509250929050565b6000806000606084860312156105a0578081fd5b83356105ab8161070b565b925060208401356105bb8161070b565b9150604084013567ffffffffffffffff808211156105d7578283fd5b818601915086601f8301126105ea578283fd5b8135818111156105fc576105fc6106f5565b604051601f8201601f19908116603f01168101908382118183101715610624576106246106f5565b8160405282815289602084870101111561063c578586fd5b82602086016020830137856020848301015280955050505050509250925092565b600060018060a01b038416825260206040818401528351806040850152825b818110156106985785810183015185820160600152820161067c565b818111156106a95783606083870101525b50601f01601f191692909201606001949350505050565b6020808252818101527f4f776e61626c653a2063616c6c6572206973206e6f7420746865206f776e6572604082015260600190565b634e487b7160e01b600052604160045260246000fd5b6001600160a01b038116811461072057600080fd5b5056fea2646970667358221220d849f96f3086b9f82cdcf665adb8c697ace05638da1c7c16ab2d26293717af6764736f6c63430008020033",
+      "r": "0x2da23786134c0375d19e3153f4659546c3c0b5d6df9e66a25fd4080a59c5f297",
+      "s": "0x1b4a1da99a26b3eae8e093735da02d94c07c9507fc5dc1e9b89beba60607181d",
+      "v": 1,
+      "creates": "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6",
+      "chainId": 31337
+    }
+  },
+  "proxies": [
+    {
+      "address": "0x959922bE3CAee4b8Cd9a407cc3ac1C251C2007B1",
+      "txHash": "0xb0ccdc1bb854a2c2f5661890b0d162652de97230f68a0dc0a48e6c759f6ba848",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x322813Fd9A801c5507c9de605d63CEA4f2CE6c44",
+      "txHash": "0x50d2a75bb0c027b5c50b1d09a4487ecda2a0506b8dd9ad2a97071180a27d6b38",
+      "kind": "transparent"
+    },
+    {
+      "address": "0xc3e53F4d16Ae77Db1c982e75a937B9f60FE63690",
+      "txHash": "0x5533ccd705c87e4a33d1464021966dc829243450a0559afd37d9621da555f6a3",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x95401dc811bb5740090279Ba06cfA8fcF6113778",
+      "txHash": "0x29053da4c2f6b3b9638b2636cd21c5d1a3a518b29c510b2334921860a959e38f",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x99bbA657f2BbC93c02D617f8bA121cB8Fc104Acf",
+      "txHash": "0x3bca5693f3f0b9392a9feca0556ccc7c34a5a84ae8b6ab009e65eec9b6abe7cb",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x59b670e9fA9D0A427751Af201D676719a970857b",
+      "txHash": "0xecbb48c5cd902019a7a93eb99dcd373330054f9214627a0e9bb1f19ac7aee753",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x67d269191c92Caf3cD7723F116c85e6E9bf55933",
+      "txHash": "0xb9db15a2182fbbd3c43ee30d07302b7814ac55aff55a893d4fddab6ba8da4edc",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x851356ae760d987E095750cCeb3bC6014560891C",
+      "txHash": "0xc010e1a2201f25ed5d9aa958efe92e62b4b39839bee0bccfb1d8b3984f994741",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x70e0bA845a1A0F2DA3359C97E0285013525FFC49",
+      "txHash": "0x4fe9038652623b2406bca34ab3f89027af833935f04339a30eba79dbd2402ceb",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6",
+      "txHash": "0xe29f98ac5607a146578bce866d017311e82b6546d3b94c4534c24ee3f1e7966c",
+      "kind": "transparent"
+    },
+    {
+      "address": "0xEa439e0C9EA630685b78628846535672E7dD94B2",
+      "txHash": "0xdbc6bd58f2f74d8c6022597a9cf68b64621b86f0465e95a0c36b7a2525515d71",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x2f381EFB2d7997bD3F2C779034bD7e922faDE971",
+      "txHash": "0x7e76fa9ad526a65d66d4709d8568513050cc749aa1eed0ece031c6507acb81e2",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x610178dA211FEF7D417bC0e6FeD39F05609AD788",
+      "txHash": "0xdabb729eb8be6a8be1e44fb93478a558f37f79fd8d394054b7c2a9de644cc312",
+      "kind": "transparent"
+    },
+    {
+      "address": "0xB7f8BC63BbcaD18155201308C8f3540b07f84F5e",
+      "txHash": "0x36b47dd78cf3216b90be6734c3a778652f3e74a446eb99ecfbf564a1b2105b9c",
+      "kind": "transparent"
+    },
+    {
+      "address": "0xA51c1fc2f0D1a1b8494Ed1FE312d7C3a78Ed91C0",
+      "txHash": "0xa405f17df8d29aa5ce5fba919da01839ec0ecab50fa48e35bf4b9b85d4616219",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x0DCd1Bf9A1b36cE34237eEaFef220932846BCD82",
+      "txHash": "0xef4d810c572e087dd6e0c16d8b1809aadee0660d7d364c3b4c5f448d4e172604",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x9A676e781A523b5d0C0e43731313A708CB607508",
+      "txHash": "0x49f299ed872b45125befc256046db0392b5239e191dc9c52e61b0d4deb4f3ee0",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x0B306BF915C4d645ff596e518fAf3F9669b97016",
+      "txHash": "0xa8d90e0b33e981b9ce4e2b45ab6147c606624b82c7626c6aebc8e8f2ef7adcd7",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x8A791620dd6260079BF849Dc5567aDC3F2FdC318",
+      "txHash": "0xf392c082e61b6aab61ea62a28c8934623fa0075c1fa1c94dcec2064e8cd3d8d6",
+      "kind": "transparent"
+    }
+  ],
+  "impls": {
+    "c738ff022a77b59d2a211e005236a901c835605d61a2313f775b5d953e02d3e5": {
+      "address": "0xC373Bd9a46df0946Dd2b8f52bFC8f4f5BC95c6dA",
+      "txHash": "0x46914f6b92b1d64784eaefdc89c2ff3c191ebc851fec0f5015b6d64c3aff6ef1",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "_initialized",
+            "type": "t_uint8",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:62"
+          },
+          {
+            "contract": "Initializable",
+            "label": "_initializing",
+            "type": "t_bool",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:67"
+          },
+          {
+            "contract": "ContextUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:36"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "_owner",
+            "type": "t_address",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:22"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:87"
+          },
+          {
+            "contract": "BaseReflectionBurn",
+            "label": "liquidityInitialised",
+            "type": "t_bool",
+            "src": "contracts\\BRB.sol:141"
+          },
+          {
+            "contract": "BaseReflectionBurn",
+            "label": "feesEnabled",
+            "type": "t_uint256",
+            "src": "contracts\\BRB.sol:143"
+          },
+          {
+            "contract": "BaseReflectionBurn",
+            "label": "swapThreshold",
+            "type": "t_uint256",
+            "src": "contracts\\BRB.sol:144"
+          },
+          {
+            "contract": "BaseReflectionBurn",
+            "label": "totalReflected",
+            "type": "t_uint256",
+            "src": "contracts\\BRB.sol:145"
+          },
+          {
+            "contract": "BaseReflectionBurn",
+            "label": "totalSubLPBalance",
+            "type": "t_uint256",
+            "src": "contracts\\BRB.sol:146"
+          },
+          {
+            "contract": "BaseReflectionBurn",
+            "label": "isInSwap",
+            "type": "t_uint256",
+            "src": "contracts\\BRB.sol:148"
+          },
+          {
+            "contract": "BaseReflectionBurn",
+            "label": "lastBurnedTimestamp",
+            "type": "t_uint256",
+            "src": "contracts\\BRB.sol:151"
+          },
+          {
+            "contract": "BaseReflectionBurn",
+            "label": "totalBurnRewards",
+            "type": "t_uint256",
+            "src": "contracts\\BRB.sol:152"
+          },
+          {
+            "contract": "BaseReflectionBurn",
+            "label": "totalBurned",
+            "type": "t_uint256",
+            "src": "contracts\\BRB.sol:153"
+          },
+          {
+            "contract": "BaseReflectionBurn",
+            "label": "b2eETHbalance",
+            "type": "t_uint256",
+            "src": "contracts\\BRB.sol:154"
+          },
+          {
+            "contract": "BaseReflectionBurn",
+            "label": "_uniswapPair",
+            "type": "t_address",
+            "src": "contracts\\BRB.sol:156"
+          },
+          {
+            "contract": "BaseReflectionBurn",
+            "label": "marketingFeeReceiver",
+            "type": "t_address",
+            "src": "contracts\\BRB.sol:157"
+          },
+          {
+            "contract": "BaseReflectionBurn",
+            "label": "lpFeeReceiver",
+            "type": "t_address",
+            "src": "contracts\\BRB.sol:158"
+          },
+          {
+            "contract": "BaseReflectionBurn",
+            "label": "buybackFeeReceiver",
+            "type": "t_address",
+            "src": "contracts\\BRB.sol:159"
+          },
+          {
+            "contract": "BaseReflectionBurn",
+            "label": "treasuryReceiver",
+            "type": "t_address",
+            "src": "contracts\\BRB.sol:160"
+          },
+          {
+            "contract": "BaseReflectionBurn",
+            "label": "buyFee",
+            "type": "t_struct(Fee)850_storage",
+            "src": "contracts\\BRB.sol:162"
+          },
+          {
+            "contract": "BaseReflectionBurn",
+            "label": "sellFee",
+            "type": "t_struct(Fee)850_storage",
+            "src": "contracts\\BRB.sol:163"
+          },
+          {
+            "contract": "BaseReflectionBurn",
+            "label": "isRegistredPool",
+            "type": "t_mapping(t_address,t_uint256)",
+            "src": "contracts\\BRB.sol:166"
+          },
+          {
+            "contract": "BaseReflectionBurn",
+            "label": "_baseBalance",
+            "type": "t_mapping(t_address,t_uint256)",
+            "src": "contracts\\BRB.sol:167"
+          },
+          {
+            "contract": "BaseReflectionBurn",
+            "label": "_allowances",
+            "type": "t_mapping(t_address,t_mapping(t_address,t_uint256))",
+            "src": "contracts\\BRB.sol:169"
+          }
+        ],
+        "types": {
+          "t_bool": {
+            "label": "bool"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_struct(Fee)850_storage": {
+            "label": "struct BaseReflectionBurn.Fee",
+            "members": [
+              {
+                "label": "marketing",
+                "type": "t_uint8"
+              },
+              {
+                "label": "treasury",
+                "type": "t_uint8"
+              },
+              {
+                "label": "lp",
+                "type": "t_uint8"
+              },
+              {
+                "label": "buyback",
+                "type": "t_uint8"
+              },
+              {
+                "label": "reflection",
+                "type": "t_uint8"
+              },
+              {
+                "label": "burn",
+                "type": "t_uint8"
+              },
+              {
+                "label": "b2e",
+                "type": "t_uint8"
+              },
+              {
+                "label": "total",
+                "type": "t_uint128"
+              }
+            ]
+          },
+          "t_uint8": {
+            "label": "uint8"
+          },
+          "t_uint128": {
+            "label": "uint128"
+          },
+          "t_mapping(t_address,t_uint256)": {
+            "label": "mapping(address => uint256)"
+          },
+          "t_mapping(t_address,t_mapping(t_address,t_uint256))": {
+            "label": "mapping(address => mapping(address => uint256))"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          }
+        }
+      }
+    },
+    "f2a9975ff32ea8ed4a00c0b392de5d2c8bfbc5afbcf22b8454420033ebe2bf7d": {
+      "address": "0xa513E6E4b8f2a923D98304ec87F64353C4D5C853",
+      "txHash": "0x01176967eeedec13e99877caee7d724f4c7314e1e76042f7ec3311525821b341",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "_initialized",
+            "type": "t_uint8",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:62"
+          },
+          {
+            "contract": "Initializable",
+            "label": "_initializing",
+            "type": "t_bool",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:67"
+          },
+          {
+            "contract": "ContextUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:36"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "_owner",
+            "type": "t_address",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:22"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:87"
+          },
+          {
+            "contract": "BaseReflectionBurn_aero_test",
+            "label": "liquidityInitialised",
+            "type": "t_bool",
+            "src": "contracts\\BRB_aero_test.sol:136"
+          },
+          {
+            "contract": "BaseReflectionBurn_aero_test",
+            "label": "feesEnabled",
+            "type": "t_uint256",
+            "src": "contracts\\BRB_aero_test.sol:138"
+          },
+          {
+            "contract": "BaseReflectionBurn_aero_test",
+            "label": "swapThreshold",
+            "type": "t_uint256",
+            "src": "contracts\\BRB_aero_test.sol:139"
+          },
+          {
+            "contract": "BaseReflectionBurn_aero_test",
+            "label": "totalReflected",
+            "type": "t_uint256",
+            "src": "contracts\\BRB_aero_test.sol:140"
+          },
+          {
+            "contract": "BaseReflectionBurn_aero_test",
+            "label": "totalSubLPBalance",
+            "type": "t_uint256",
+            "src": "contracts\\BRB_aero_test.sol:141"
+          },
+          {
+            "contract": "BaseReflectionBurn_aero_test",
+            "label": "isInSwap",
+            "type": "t_uint256",
+            "src": "contracts\\BRB_aero_test.sol:143"
+          },
+          {
+            "contract": "BaseReflectionBurn_aero_test",
+            "label": "lastBurnedTimestamp",
+            "type": "t_uint256",
+            "src": "contracts\\BRB_aero_test.sol:145"
+          },
+          {
+            "contract": "BaseReflectionBurn_aero_test",
+            "label": "totalBurnRewards",
+            "type": "t_uint256",
+            "src": "contracts\\BRB_aero_test.sol:146"
+          },
+          {
+            "contract": "BaseReflectionBurn_aero_test",
+            "label": "totalBurned",
+            "type": "t_uint256",
+            "src": "contracts\\BRB_aero_test.sol:147"
+          },
+          {
+            "contract": "BaseReflectionBurn_aero_test",
+            "label": "b2eETHbalance",
+            "type": "t_uint256",
+            "src": "contracts\\BRB_aero_test.sol:148"
+          },
+          {
+            "contract": "BaseReflectionBurn_aero_test",
+            "label": "_uniswapPair",
+            "type": "t_address",
+            "src": "contracts\\BRB_aero_test.sol:150"
+          },
+          {
+            "contract": "BaseReflectionBurn_aero_test",
+            "label": "marketingFeeReceiver",
+            "type": "t_address",
+            "src": "contracts\\BRB_aero_test.sol:151"
+          },
+          {
+            "contract": "BaseReflectionBurn_aero_test",
+            "label": "lpFeeReceiver",
+            "type": "t_address",
+            "src": "contracts\\BRB_aero_test.sol:152"
+          },
+          {
+            "contract": "BaseReflectionBurn_aero_test",
+            "label": "buybackFeeReceiver",
+            "type": "t_address",
+            "src": "contracts\\BRB_aero_test.sol:153"
+          },
+          {
+            "contract": "BaseReflectionBurn_aero_test",
+            "label": "treasuryReceiver",
+            "type": "t_address",
+            "src": "contracts\\BRB_aero_test.sol:154"
+          },
+          {
+            "contract": "BaseReflectionBurn_aero_test",
+            "label": "buyFee",
+            "type": "t_struct(Fee)860_storage",
+            "src": "contracts\\BRB_aero_test.sol:156"
+          },
+          {
+            "contract": "BaseReflectionBurn_aero_test",
+            "label": "sellFee",
+            "type": "t_struct(Fee)860_storage",
+            "src": "contracts\\BRB_aero_test.sol:157"
+          },
+          {
+            "contract": "BaseReflectionBurn_aero_test",
+            "label": "isRegistredPool",
+            "type": "t_mapping(t_address,t_uint256)",
+            "src": "contracts\\BRB_aero_test.sol:160"
+          },
+          {
+            "contract": "BaseReflectionBurn_aero_test",
+            "label": "_baseBalance",
+            "type": "t_mapping(t_address,t_uint256)",
+            "src": "contracts\\BRB_aero_test.sol:161"
+          },
+          {
+            "contract": "BaseReflectionBurn_aero_test",
+            "label": "_allowances",
+            "type": "t_mapping(t_address,t_mapping(t_address,t_uint256))",
+            "src": "contracts\\BRB_aero_test.sol:163"
+          }
+        ],
+        "types": {
+          "t_bool": {
+            "label": "bool"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_struct(Fee)860_storage": {
+            "label": "struct BaseReflectionBurn_aero_test.Fee",
+            "members": [
+              {
+                "label": "marketing",
+                "type": "t_uint8"
+              },
+              {
+                "label": "treasury",
+                "type": "t_uint8"
+              },
+              {
+                "label": "lp",
+                "type": "t_uint8"
+              },
+              {
+                "label": "buyback",
+                "type": "t_uint8"
+              },
+              {
+                "label": "reflection",
+                "type": "t_uint8"
+              },
+              {
+                "label": "burn",
+                "type": "t_uint8"
+              },
+              {
+                "label": "b2e",
+                "type": "t_uint8"
+              },
+              {
+                "label": "total",
+                "type": "t_uint128"
+              }
+            ]
+          },
+          "t_uint8": {
+            "label": "uint8"
+          },
+          "t_uint128": {
+            "label": "uint128"
+          },
+          "t_mapping(t_address,t_uint256)": {
+            "label": "mapping(address => uint256)"
+          },
+          "t_mapping(t_address,t_mapping(t_address,t_uint256))": {
+            "label": "mapping(address => mapping(address => uint256))"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          }
+        }
+      }
+    }
+  }
+}
