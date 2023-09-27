@@ -68,6 +68,7 @@ module.exports = {
       "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC": "LPfeeReceiver",
       "0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65": "TreasuryFeeReceiver",
       "0x10ed43c718714eb63d5aa57b78b54704e256024e": "Router",
+      "0x9965507D1a55bcC2695C58ba16FB37d819B0A4dc": "User A"
     },
   },
   mocha: {

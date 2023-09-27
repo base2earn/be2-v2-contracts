@@ -11,7 +11,7 @@ async function main() {
   let provider = ethers.provider;
 
   // --- required for polygon rpc gas override
-  if (process.env.TARGET_CHAIN == 0) {
+  if (process.env.TARGET_CHAIN == 137) {
     provider = new ethers.providers.FallbackProvider([ethers.provider], 1);
     const FEE_DATA = {
       maxFeePerGas:         ethers.utils.parseUnits("10000", "gwei"),
@@ -61,17 +61,15 @@ async function main() {
     return ethers.utils.formatEther(receipt.gasUsed.mul(receipt.effectiveGasPrice));
   }
 
-  const liquidityToAddinEther = ethers.utils.parseEther("0.66");
+  const liquidityToAddinEther = ethers.utils.parseEther("0.0000000001"); //0.66
   const liquidityToAddInToken = ethers.utils.parseEther("750000000");
 
   // --- Deployment
   const factory = await ethers.getContractFactory("BaseReflectionBurn");
   let connectedFactory = factory.connect(owner);
-  // if(process.env.TARGET_CHAIN == 137) {
-  //   connectedFactory = factory.connect(owner);
-  // } else {
-  //   connectedFactory = factory.connect(owner.getSigner())
-  // }
+  if(process.env.TARGET_CHAIN == 137) {
+    connectedFactory = factory.connect(owner);
+  }
 
   console.log("Deploying...")
 
@@ -88,7 +86,8 @@ async function main() {
       unsafeAllow: ["constructor", "state-variable-immutable"],
       constructorArgs: [
         routers[String(process.env.TARGET_CHAIN)]
-      ]
+      ],
+      timeout: 0
     }
   );
   let tx = (await instance.deployed()).deployTransaction;

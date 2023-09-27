@@ -1,0 +1,230 @@
+{
+  "manifestVersion": "3.2",
+  "proxies": [],
+  "impls": {
+    "375da6843e46de63d7fbbbebc5fbcfd1f6f7e319fbf4625e1a6dd552699cc53d": {
+      "address": "0x2844254E0ff3998EADcB056eafE75DFDEb2a3db5",
+      "txHash": "0xc82f866c1cb0a1928829cf50aa412f8d4b18f45d60c2154a4350c7e750e8311b",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "_initialized",
+            "type": "t_uint8",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:62"
+          },
+          {
+            "contract": "Initializable",
+            "label": "_initializing",
+            "type": "t_bool",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:67"
+          },
+          {
+            "contract": "ContextUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:36"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "_owner",
+            "type": "t_address",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:22"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:87"
+          },
+          {
+            "contract": "BaseReflectionBurn",
+            "label": "liquidityInitialised",
+            "type": "t_bool",
+            "src": "contracts\\BRB.sol:134"
+          },
+          {
+            "contract": "BaseReflectionBurn",
+            "label": "feesEnabled",
+            "type": "t_uint256",
+            "src": "contracts\\BRB.sol:136"
+          },
+          {
+            "contract": "BaseReflectionBurn",
+            "label": "swapThreshold",
+            "type": "t_uint256",
+            "src": "contracts\\BRB.sol:137"
+          },
+          {
+            "contract": "BaseReflectionBurn",
+            "label": "totalReflected",
+            "type": "t_uint256",
+            "src": "contracts\\BRB.sol:138"
+          },
+          {
+            "contract": "BaseReflectionBurn",
+            "label": "totalSubLPBalance",
+            "type": "t_uint256",
+            "src": "contracts\\BRB.sol:139"
+          },
+          {
+            "contract": "BaseReflectionBurn",
+            "label": "isInSwap",
+            "type": "t_uint256",
+            "src": "contracts\\BRB.sol:141"
+          },
+          {
+            "contract": "BaseReflectionBurn",
+            "label": "lastBurnedTimestamp",
+            "type": "t_uint256",
+            "src": "contracts\\BRB.sol:143"
+          },
+          {
+            "contract": "BaseReflectionBurn",
+            "label": "totalBurnRewards",
+            "type": "t_uint256",
+            "src": "contracts\\BRB.sol:144"
+          },
+          {
+            "contract": "BaseReflectionBurn",
+            "label": "totalBurned",
+            "type": "t_uint256",
+            "src": "contracts\\BRB.sol:145"
+          },
+          {
+            "contract": "BaseReflectionBurn",
+            "label": "b2eETHbalance",
+            "type": "t_uint256",
+            "src": "contracts\\BRB.sol:146"
+          },
+          {
+            "contract": "BaseReflectionBurn",
+            "label": "_uniswapPair",
+            "type": "t_address",
+            "src": "contracts\\BRB.sol:148"
+          },
+          {
+            "contract": "BaseReflectionBurn",
+            "label": "marketingFeeReceiver",
+            "type": "t_address",
+            "src": "contracts\\BRB.sol:149"
+          },
+          {
+            "contract": "BaseReflectionBurn",
+            "label": "lpFeeReceiver",
+            "type": "t_address",
+            "src": "contracts\\BRB.sol:150"
+          },
+          {
+            "contract": "BaseReflectionBurn",
+            "label": "buybackFeeReceiver",
+            "type": "t_address",
+            "src": "contracts\\BRB.sol:151"
+          },
+          {
+            "contract": "BaseReflectionBurn",
+            "label": "treasuryReceiver",
+            "type": "t_address",
+            "src": "contracts\\BRB.sol:152"
+          },
+          {
+            "contract": "BaseReflectionBurn",
+            "label": "buyFee",
+            "type": "t_struct(Fee)848_storage",
+            "src": "contracts\\BRB.sol:154"
+          },
+          {
+            "contract": "BaseReflectionBurn",
+            "label": "sellFee",
+            "type": "t_struct(Fee)848_storage",
+            "src": "contracts\\BRB.sol:155"
+          },
+          {
+            "contract": "BaseReflectionBurn",
+            "label": "isRegistredPool",
+            "type": "t_mapping(t_address,t_uint256)",
+            "src": "contracts\\BRB.sol:158"
+          },
+          {
+            "contract": "BaseReflectionBurn",
+            "label": "_baseBalance",
+            "type": "t_mapping(t_address,t_uint256)",
+            "src": "contracts\\BRB.sol:159"
+          },
+          {
+            "contract": "BaseReflectionBurn",
+            "label": "_allowances",
+            "type": "t_mapping(t_address,t_mapping(t_address,t_uint256))",
+            "src": "contracts\\BRB.sol:161"
+          }
+        ],
+        "types": {
+          "t_bool": {
+            "label": "bool"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_struct(Fee)848_storage": {
+            "label": "struct BaseReflectionBurn.Fee",
+            "members": [
+              {
+                "label": "marketing",
+                "type": "t_uint8"
+              },
+              {
+                "label": "treasury",
+                "type": "t_uint8"
+              },
+              {
+                "label": "lp",
+                "type": "t_uint8"
+              },
+              {
+                "label": "buyback",
+                "type": "t_uint8"
+              },
+              {
+                "label": "reflection",
+                "type": "t_uint8"
+              },
+              {
+                "label": "burn",
+                "type": "t_uint8"
+              },
+              {
+                "label": "b2e",
+                "type": "t_uint8"
+              },
+              {
+                "label": "total",
+                "type": "t_uint128"
+              }
+            ]
+          },
+          "t_uint8": {
+            "label": "uint8"
+          },
+          "t_uint128": {
+            "label": "uint128"
+          },
+          "t_mapping(t_address,t_uint256)": {
+            "label": "mapping(address => uint256)"
+          },
+          "t_mapping(t_address,t_mapping(t_address,t_uint256))": {
+            "label": "mapping(address => mapping(address => uint256))"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          }
+        }
+      }
+    }
+  }
+}

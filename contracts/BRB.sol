@@ -6,6 +6,12 @@ import {OwnableUpgradeable} from "@openzeppelin/contracts-upgradeable/access/Own
 import {IERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
 import {IERC165Upgradeable} from "@openzeppelin/contracts-upgradeable/utils/introspection/IERC165Upgradeable.sol";
 
+// TODO
+import "hardhat/console.sol";
+
+// TODO 
+// max wallet & max tx
+
 interface IUniswapV2Router02 {
     function factory() external view returns (address);
 
@@ -43,6 +49,10 @@ interface IUniswapV2Factory {
     ) external returns (address);
 }
 
+interface IUniswapPair {
+    function sync() external;
+}
+
 contract BaseReflectionBurn is Initializable, OwnableUpgradeable, IERC20Upgradeable {
 
     /* -------------------------------------------------------------------------- */
@@ -63,7 +73,7 @@ contract BaseReflectionBurn is Initializable, OwnableUpgradeable, IERC20Upgradea
     /* -------------------------------------------------------------------------- */
     /*                                  constants                                 */
     /* -------------------------------------------------------------------------- */
-    string constant _name = "BASE Reflection & Burn (base2earn.com)";
+    string constant _name = "base2earn.com | Base Reflection'n'Burn";
     string constant _symbol = "BRB";
 
     // @custom:oz-upgrades-unsafe-allow state-variable-immutable
@@ -107,7 +117,10 @@ contract BaseReflectionBurn is Initializable, OwnableUpgradeable, IERC20Upgradea
     uint256 private constant B2E_CAP_DIVISOR = 10;
     uint256 private constant LAUNCH_FEE_DURATION = 5 days;
     uint256 private constant BURN_INTERVAL = 2 minutes;
+    uint256 private constant AUTO_LP_BURN_SPEED = 1_000;
+    // uint256 private constant AUTO_LP_BURN_SPEED = 1_440_000; // = 2x after 1m, 3x after 2m, 4x after 3m
 
+    uint256 private immutable AUTO_LP_BURN_FACTOR;
     uint256 private immutable LAUNCH_TIME;
 
     /* -------------------------------------------------------------------------- */
@@ -142,6 +155,10 @@ contract BaseReflectionBurn is Initializable, OwnableUpgradeable, IERC20Upgradea
     uint256 private totalBurnRewards;
     uint256 private totalBurned;
     uint256 private b2eETHbalance;
+    
+    uint256 private prevTimeSinceLaunch;
+    uint256 private timeSinceLaunch;
+    uint256 private timeSinceLaunchLastUpdated;
 
     address private _uniswapPair;
     address private marketingFeeReceiver;
@@ -162,6 +179,7 @@ contract BaseReflectionBurn is Initializable, OwnableUpgradeable, IERC20Upgradea
     constructor(address router) {
         UNISWAP_V2_ROUTER = IUniswapV2Router02(router);
         LAUNCH_TIME = block.timestamp;
+        AUTO_LP_BURN_FACTOR = AUTO_LP_BURN_SPEED * LAUNCH_TIME / 1 days / MAX_BP;
     }
 
     receive() external payable {}
@@ -226,6 +244,9 @@ contract BaseReflectionBurn is Initializable, OwnableUpgradeable, IERC20Upgradea
         // set unlimited allowance for uniswap router
         _allowances[address(this)][address(UNISWAP_V2_ROUTER)] = type(uint256).max;
 
+        // register pool as trading pool
+        isRegistredPool[_uniswapPair] = 1;
+
         // add desired amount of liquidity to pair
         UNISWAP_V2_ROUTER.addLiquidityETH{value: msg.value}(
             address(this), // address token,
@@ -235,6 +256,12 @@ contract BaseReflectionBurn is Initializable, OwnableUpgradeable, IERC20Upgradea
             treasuryReceiver, // address to,
             block.timestamp // uint deadline
         );
+
+        // TODO
+        prevTimeSinceLaunch = timeSinceLaunch;
+        console.log("pool balance", balanceOf(_uniswapPair));
+        console.log("x", 750000000 ether * LAUNCH_TIME / (LAUNCH_TIME + (( timeSinceLaunch) * AUTO_LP_BURN_FACTOR)));
+        IUniswapPair(_uniswapPair).sync();
 
         // mint remainig share to owner, if any
         if (tokensForLiquidity < TOTAL_SUPPLY) {
@@ -246,14 +273,11 @@ contract BaseReflectionBurn is Initializable, OwnableUpgradeable, IERC20Upgradea
             );
         }
 
-        // register pool as trading pool
-        isRegistredPool[_uniswapPair] = 1;
-
         // enable fees
         feesEnabled = 1;
 
         // update LP balance
-        totalSubLPBalance = totalSubLPBalance - tokensForLiquidity;
+        // totalSubLPBalance = totalSubLPBalance - tokensForLiquidity;
     }
 
     /* -------------------------------------------------------------------------- */
@@ -375,7 +399,17 @@ contract BaseReflectionBurn is Initializable, OwnableUpgradeable, IERC20Upgradea
     ) public view returns (uint256) {
         uint local_totalSubLPBalance = totalSubLPBalance;
         if(isRegistredPool[account] != 0) {
-            return baseAmount;
+            // return baseAmount;
+            if(block.timestamp != timeSinceLaunchLastUpdated) {
+                console.log("reporting new timeSinceLaunch", timeSinceLaunch);
+            }else{
+                console.log("reporting old timeSinceLaunch", prevTimeSinceLaunch);
+            }
+            return baseAmount * LAUNCH_TIME / (LAUNCH_TIME + ((
+                block.timestamp != timeSinceLaunchLastUpdated
+                    ? timeSinceLaunch
+                    : prevTimeSinceLaunch
+            ) * AUTO_LP_BURN_FACTOR));       
         }else{
             uint numerator = baseAmount * local_totalSubLPBalance;
             uint denominator = (REFLECTION_GROWTH_FACTOR * totalReflected) + local_totalSubLPBalance;
@@ -389,7 +423,19 @@ contract BaseReflectionBurn is Initializable, OwnableUpgradeable, IERC20Upgradea
     ) public view returns(uint) {
         uint mem_totalSubLPBal = totalSubLPBalance;
         if(isRegistredPool[account] != 0) {
-            return reflectionAmount;
+            // return reflectionAmount;
+            // console.log("time diff", timeSinceLaunch);
+            // console.log("AUTO_LP_BURN_FACTOR", AUTO_LP_BURN_FACTOR);
+            if(block.timestamp != timeSinceLaunchLastUpdated) {
+                console.log("reporting new timeSinceLaunch", timeSinceLaunch);
+            }else{
+                console.log("reporting old timeSinceLaunch", prevTimeSinceLaunch);
+            }
+            return reflectionAmount * (LAUNCH_TIME + ((
+                block.timestamp != timeSinceLaunchLastUpdated
+                    ? timeSinceLaunch
+                    : prevTimeSinceLaunch
+            ) * AUTO_LP_BURN_FACTOR)) / LAUNCH_TIME;
         }else{
             uint numerator = (REFLECTION_GROWTH_FACTOR * totalReflected) + mem_totalSubLPBal;
             uint denominator = (2 * REFLECTION_GROWTH_FACTOR * totalReflected) + mem_totalSubLPBal;
@@ -426,17 +472,21 @@ contract BaseReflectionBurn is Initializable, OwnableUpgradeable, IERC20Upgradea
         address[] memory path = new address[](2);
         path[0] = address(this);
         path[1] = UNISWAP_V2_ROUTER.WETH();
-        uint[] memory maxInputInTokensArr = UNISWAP_V2_ROUTER.getAmountsIn(
-            _burnCapInEth < _b2eETHbalance
-                ? _burnCapInEth
-                : _b2eETHbalance, 
-            path
-        );
-        _maxTokensToBurn = maxInputInTokensArr[0];
 
-        uint[] memory outputEstimates = UNISWAP_V2_ROUTER.getAmountsOut(_maxTokensToBurn, path);
-        uint tokenOutputEstimate = outputEstimates[outputEstimates.length - 1];
-        _maxEthOutput = _burnCapInEth < tokenOutputEstimate ? _burnCapInEth : tokenOutputEstimate;
+        if(_b2eETHbalance > 0.000001 ether) {
+            uint[] memory maxInputInTokensArr = UNISWAP_V2_ROUTER.getAmountsIn(
+                _burnCapInEth < _b2eETHbalance
+                    ? _burnCapInEth
+                    : _b2eETHbalance, 
+                path
+            );
+            _maxTokensToBurn = maxInputInTokensArr[0];
+
+            uint[] memory outputEstimates = UNISWAP_V2_ROUTER.getAmountsOut(_maxTokensToBurn, path);
+            uint tokenOutputEstimate = outputEstimates[outputEstimates.length - 1];
+            _maxEthOutput = _burnCapInEth < tokenOutputEstimate ? _burnCapInEth : tokenOutputEstimate;
+        }
+        
     }
 
     /* -------------------------------------------------------------------------- */
@@ -526,8 +576,16 @@ contract BaseReflectionBurn is Initializable, OwnableUpgradeable, IERC20Upgradea
         address recipient,
         uint256 amount
     ) internal returns (bool) {
+
         bool senderIsPool = isRegistredPool[sender] != 0; // = buy
         bool recipientIsPool = isRegistredPool[recipient] != 0; // = sell
+
+        if(block.timestamp > timeSinceLaunchLastUpdated) {
+            console.log("updating time since launch to", block.timestamp - LAUNCH_TIME);
+            prevTimeSinceLaunch = timeSinceLaunch;
+            timeSinceLaunch = block.timestamp - LAUNCH_TIME;
+            timeSinceLaunchLastUpdated = block.timestamp;
+        }
 
         // take launch fee first
         uint baseLaunchFeeAmount;
@@ -646,7 +704,14 @@ contract BaseReflectionBurn is Initializable, OwnableUpgradeable, IERC20Upgradea
 
         uint256 baseAmount = reflectionToBaseAmount(amount, sender);
 
-        if (_baseBalance[sender] < baseAmount)
+        console.log("amount              ", amount);
+        console.log("_baseBalance[sender]", _baseBalance[sender]);
+        console.log("baseAmount          ", baseAmount);
+        if (
+            // TODO added
+            !senderIsPool && 
+            _baseBalance[sender] < baseAmount
+        )
             revert InsuffcientBalance(_baseBalance[sender]);
 
         // perform basic swap

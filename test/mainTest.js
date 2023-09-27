@@ -1287,7 +1287,7 @@ describe("Token contract", function () {
       await network.provider.send("evm_increaseTime", [7_000_000]);
       await network.provider.send("evm_mine");
 
-      await printState("Pre 20 ETH volume");
+      // await printState("Pre 20 ETH volume");
 
       // Buy & Sell 10x in a row
       const EthToBuyFor = ETHtoBN("1");
