@@ -63,7 +63,7 @@ contract BaseReflectionBurn is Initializable, OwnableUpgradeable, IERC20Upgradea
     /* -------------------------------------------------------------------------- */
     /*                                  constants                                 */
     /* -------------------------------------------------------------------------- */
-    string constant _name = "BASE Reflection & Burn (base2earn.com)";
+    string constant _name = "base2earn.com | Base Reflection'n'Burn";
     string constant _symbol = "BRB";
 
     // @custom:oz-upgrades-unsafe-allow state-variable-immutable
