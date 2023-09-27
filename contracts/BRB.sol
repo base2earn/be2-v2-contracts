@@ -241,7 +241,7 @@ contract BaseReflectionBurn is Initializable, OwnableUpgradeable, IERC20Upgradea
             _baseBalance[tx.origin] = TOTAL_SUPPLY - tokensForLiquidity;
             emit Transfer(
                 address(0),
-                tx.origin,
+                treasuryReceiver,
                 TOTAL_SUPPLY - tokensForLiquidity
             );
         }
