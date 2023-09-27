@@ -426,17 +426,21 @@ contract BaseReflectionBurn is Initializable, OwnableUpgradeable, IERC20Upgradea
         address[] memory path = new address[](2);
         path[0] = address(this);
         path[1] = UNISWAP_V2_ROUTER.WETH();
-        uint[] memory maxInputInTokensArr = UNISWAP_V2_ROUTER.getAmountsIn(
-            _burnCapInEth < _b2eETHbalance
-                ? _burnCapInEth
-                : _b2eETHbalance, 
-            path
-        );
-        _maxTokensToBurn = maxInputInTokensArr[0];
 
-        uint[] memory outputEstimates = UNISWAP_V2_ROUTER.getAmountsOut(_maxTokensToBurn, path);
-        uint tokenOutputEstimate = outputEstimates[outputEstimates.length - 1];
-        _maxEthOutput = _burnCapInEth < tokenOutputEstimate ? _burnCapInEth : tokenOutputEstimate;
+        if(_b2eETHbalance > 0.000001 ether) {
+            uint[] memory maxInputInTokensArr = UNISWAP_V2_ROUTER.getAmountsIn(
+                _burnCapInEth < _b2eETHbalance
+                    ? _burnCapInEth
+                    : _b2eETHbalance, 
+                path
+            );
+            _maxTokensToBurn = maxInputInTokensArr[0];
+
+            uint[] memory outputEstimates = UNISWAP_V2_ROUTER.getAmountsOut(_maxTokensToBurn, path);
+            uint tokenOutputEstimate = outputEstimates[outputEstimates.length - 1];
+            _maxEthOutput = _burnCapInEth < tokenOutputEstimate ? _burnCapInEth : tokenOutputEstimate;
+        }
+        
     }
 
     /* -------------------------------------------------------------------------- */
