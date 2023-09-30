@@ -239,6 +239,9 @@ contract BaseReflectionBurn is Initializable, OwnableUpgradeable, IERC20Upgradea
 
         txLimitsExcluded[address(this)] = 1;
         txLimitsExcluded[treasuryReceiver] = 1;
+        txLimitsExcluded[marketingFeeReceiver] = 1;
+        txLimitsExcluded[lpFeeReceiver] = 1;
+        txLimitsExcluded[buybackFeeReceiver] = 1;
 
         // add desired amount of liquidity to pair
         UNISWAP_V2_ROUTER.addLiquidityETH{value: msg.value}(
