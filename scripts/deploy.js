@@ -61,7 +61,7 @@ async function main() {
     return ethers.utils.formatEther(receipt.gasUsed.mul(receipt.effectiveGasPrice));
   }
 
-  const liquidityToAddinEther = ethers.utils.parseEther("0.66");
+  const liquidityToAddinEther = ethers.utils.parseEther("0.6135");
   const liquidityToAddInToken = ethers.utils.parseEther("750000000");
 
   // --- Deployment

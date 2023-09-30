@@ -1274,7 +1274,133 @@ describe("Token contract", function () {
 
     });
 
-    it.only("Should burn to earn", async () => {
+    it.only("Should enforce tx & wallet limits", async () => {
+
+      const { owner, router, omniCog, pairAddress, otherSigners, printState } = await deployFixture();
+      const [userA, userB, userC, ...remainingSigners] = otherSigners;
+      const weth = await router.WETH();
+
+      // is the correct amount burned from user balance?
+      // does the contract balance decrease?
+      // does the user get paid out the correct amount?
+
+      await network.provider.send("evm_increaseTime", [7_000_000]);
+      await network.provider.send("evm_mine");
+      
+      const maxWallet = await omniCog.baseToReflectionAmount(await omniCog.MAX_TX(), userA.address);
+      console.log("hey")
+      let getmaxBuy = async () => (await router.getAmountsIn(maxWallet, [weth, omniCog.address]))[0];
+      console.log("ho")
+
+      // # Buy below limit
+      await expect(
+        router
+          .connect(userA)
+          .swapExactETHForTokensSupportingFeeOnTransferTokens(
+            // amountOutMin
+            0,
+            //path
+            [weth, omniCog.address],
+            //to
+            userA.address,
+            //deadline
+            1689510989000,
+            {
+              value: await getmaxBuy(),
+            },
+          ),
+        "Buy below limit",
+      ).to.not.be.reverted;
+      await printState("Post buy below limit")
+
+      // # Buy below limit again
+      await expect(
+        router
+          .connect(userA)
+          .swapExactETHForTokensSupportingFeeOnTransferTokens(
+            // amountOutMin
+            0,
+            //path
+            [weth, omniCog.address],
+            //to
+            userA.address,
+            //deadline
+            1689510989000,
+            {
+              value: await getmaxBuy(),
+            },
+          ),
+        "Buy below limit",
+      ).to.not.be.reverted;
+      await printState("Post buy below limit 2")
+
+      // # Buy to hit wallet limit restriction
+      await expect(
+        router
+          .connect(userA)
+          .swapExactETHForTokensSupportingFeeOnTransferTokens(
+            // amountOutMin
+            0,
+            //path
+            [weth, omniCog.address],
+            //to
+            userA.address,
+            //deadline
+            1689510989000,
+            {
+              value: await getmaxBuy(),
+            },
+          ),
+        "Buy above limit",
+      ).to.be.revertedWith("Pancake: TRANSFER_FAILED");
+      await printState("Post buy above walelt limit")
+      
+      const postBuyBalance = await omniCog.balanceOf(userA.address);
+      
+      // # Approve
+      await expect(
+        omniCog.connect(userA).approve(router.address, postBuyBalance),
+      ).to.not.be.reverted;
+
+      // # Sell too much
+      await expect(
+        router
+          .connect(userA)
+          .swapExactTokensForTokensSupportingFeeOnTransferTokens(
+            // amountin
+            postBuyBalance,
+            // outmin
+            0,
+            //path
+            [omniCog.address, weth],
+            //to
+            userA.address,
+            //deadline
+            5689510989000,
+          ),
+      ).to.be.revertedWith("TransferHelper: TRANSFER_FROM_FAILED");
+
+      // # Sell right amount
+      await expect(
+        router
+          .connect(userA)
+          .swapExactTokensForTokensSupportingFeeOnTransferTokens(
+            // amountin
+            postBuyBalance.div(2),
+            // outmin
+            0,
+            //path
+            [omniCog.address, weth],
+            //to
+            userA.address,
+            //deadline
+            5689510989000,
+          ),
+      ).to.not.be.reverted;
+
+    })
+
+    it("Should burn to earn", async () => {
 
       const { owner, router, omniCog, pairAddress, otherSigners, printState } = await deployFixture();
       const [userA, userB, userC, ...remainingSigners] = otherSigners;

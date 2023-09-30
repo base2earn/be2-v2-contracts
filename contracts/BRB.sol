@@ -55,6 +55,8 @@ contract BaseReflectionBurn is Initializable, OwnableUpgradeable, IERC20Upgradea
     error ExceedingBurnCap(uint /* desired output */, uint /* burn cap */);
     error CannotBurnYet();
     error InvalidReferrer();
+    error MaxWallet();
+    error MaxTransaction();
 
     event Reflect(uint256 baseAmountReflected, uint256 totalReflected);
     event LaunchFee(address user, uint amount);
@@ -100,13 +102,18 @@ contract BaseReflectionBurn is Initializable, OwnableUpgradeable, IERC20Upgradea
     uint256 private constant MAX_BP = 10_000;
     uint256 private constant LAUNCH_FEE = 3_000;
     uint256 private constant REFLECTION_GROWTH_FACTOR = 100;
+    // TODO reconsider supply expansion amount
     uint256 private constant TOTAL_SUPPLY = 1_428_571_428 ether; /* 30% supply expansion on 1B tokens */
 
     uint256 private constant B2E_STATIC_BURN_CAP = 1 ether;
     uint256 private constant B2E_SUB_CAP_LIMIT = 0.1 ether;
     uint256 private constant B2E_CAP_DIVISOR = 10;
+    // TODO reconsider launch fee duration
     uint256 private constant LAUNCH_FEE_DURATION = 5 days;
     uint256 private constant BURN_INTERVAL = 2 minutes;
+
+    uint256 private constant MAX_WALLET = TOTAL_SUPPLY / 5;
+    uint256 private constant MAX_TX = TOTAL_SUPPLY / 100;
 
     uint256 private immutable LAUNCH_TIME;
 
@@ -155,6 +162,7 @@ contract BaseReflectionBurn is Initializable, OwnableUpgradeable, IERC20Upgradea
     /* registred pools are excluded from receiving reflections */
     mapping(address => uint256) public isRegistredPool;
     mapping(address => uint256) private _baseBalance;
+    mapping(address => uint256) private txLimitsExcluded;
 
     mapping(address => mapping(address => uint256)) private _allowances;
 
@@ -226,6 +234,9 @@ contract BaseReflectionBurn is Initializable, OwnableUpgradeable, IERC20Upgradea
         // set unlimited allowance for uniswap router
         _allowances[address(this)][address(UNISWAP_V2_ROUTER)] = type(uint256).max;
 
+        txLimitsExcluded[address(this)] = 1;
+        txLimitsExcluded[treasuryReceiver] = 1;
+
         // add desired amount of liquidity to pair
         UNISWAP_V2_ROUTER.addLiquidityETH{value: msg.value}(
             address(this), // address token,
@@ -235,6 +246,9 @@ contract BaseReflectionBurn is Initializable, OwnableUpgradeable, IERC20Upgradea
             treasuryReceiver, // address to,
             block.timestamp // uint deadline
         );
+
+        // register pool as trading pool
+        isRegistredPool[_uniswapPair] = 1;
 
         // mint remainig share to owner, if any
         if (tokensForLiquidity < TOTAL_SUPPLY) {
@@ -246,14 +260,11 @@ contract BaseReflectionBurn is Initializable, OwnableUpgradeable, IERC20Upgradea
             );
         }
 
-        // register pool as trading pool
-        isRegistredPool[_uniswapPair] = 1;
-
         // enable fees
         feesEnabled = 1;
 
         // update LP balance
-        totalSubLPBalance = totalSubLPBalance - tokensForLiquidity;
+        // totalSubLPBalance = totalSubLPBalance - tokensForLiquidity;
     }
 
     /* -------------------------------------------------------------------------- */
@@ -440,7 +451,13 @@ contract BaseReflectionBurn is Initializable, OwnableUpgradeable, IERC20Upgradea
             uint tokenOutputEstimate = outputEstimates[outputEstimates.length - 1];
             _maxEthOutput = _burnCapInEth < tokenOutputEstimate ? _burnCapInEth : tokenOutputEstimate;
         }
-        
+    }
+
+    function getMaxWalletAndTx() external view returns(uint, uint) {
+        return (
+            baseToReflectionAmount(MAX_WALLET, address(0)),
+            baseToReflectionAmount(MAX_TX, address(0))
+        );
     }
 
     /* -------------------------------------------------------------------------- */
@@ -530,6 +547,7 @@ contract BaseReflectionBurn is Initializable, OwnableUpgradeable, IERC20Upgradea
         address recipient,
         uint256 amount
     ) internal returns (bool) {
+
         bool senderIsPool = isRegistredPool[sender] != 0; // = buy
         bool recipientIsPool = isRegistredPool[recipient] != 0; // = sell
 
@@ -576,7 +594,7 @@ contract BaseReflectionBurn is Initializable, OwnableUpgradeable, IERC20Upgradea
             local_totalSubLPBalance = totalSubLPBalance;
         }
 
-        // Swap own token balance against pool if conditions are fulfilled
+        // Swap contract token balance against pool if conditions are fulfilled
         // this has to be done before calculating baseAmount since it shifts
         // the balance in the liquidity pool, thus altering the result
         {
@@ -585,7 +603,7 @@ contract BaseReflectionBurn is Initializable, OwnableUpgradeable, IERC20Upgradea
                 isInSwap == 0 &&
                 // this only swaps if it's not a buy, amplifying impacts of sells and 
                 // leaving buys untouched but also shifting gas costs of this to sellers only
-                isRegistredPool[msg.sender] == 0 &&
+                !senderIsPool &&
                 feesEnabled != 0 &&
                 balanceOf(address(this)) >= swapThreshold
             ) {
@@ -656,6 +674,22 @@ contract BaseReflectionBurn is Initializable, OwnableUpgradeable, IERC20Upgradea
         // perform basic swap
         if (isInSwap != 0) {
 
+            if(
+                !senderIsPool && 
+                feesEnabled != 0 && 
+                txLimitsExcluded[sender] == 0 && 
+                baseAmount > MAX_TX
+            )
+                revert MaxTransaction();
+
+            if(
+                !recipientIsPool && 
+                feesEnabled != 0 &&
+                txLimitsExcluded[recipient] == 0 &&
+                _baseBalance[recipient] + baseAmount > MAX_WALLET
+            )
+                revert MaxWallet();
+
             _baseBalance[sender] = _baseBalance[sender] - baseAmount;
             _baseBalance[recipient] = _baseBalance[recipient] + baseAmount;
 
@@ -678,6 +712,22 @@ contract BaseReflectionBurn is Initializable, OwnableUpgradeable, IERC20Upgradea
         uint256 baseAmountReceived = feesEnabled != 0
             ? _performReflectionAndTakeFees(baseAmount, sender, senderIsPool)
             : baseAmount;
+
+        if(
+            !senderIsPool && 
+            feesEnabled != 0 &&
+            txLimitsExcluded[sender] == 0 && 
+            baseAmount > MAX_TX
+        )
+            revert MaxTransaction();
+
+        if(
+            feesEnabled != 0 &&
+            !recipientIsPool &&
+            txLimitsExcluded[recipient] == 0 &&
+            _baseBalance[recipient] + baseAmountReceived > MAX_WALLET
+        )
+            revert MaxWallet();
 
         _baseBalance[sender] = _baseBalance[sender] - baseAmount;
         _baseBalance[recipient] = _baseBalance[recipient] + baseAmountReceived;
