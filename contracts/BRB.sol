@@ -103,17 +103,17 @@ contract BaseReflectionBurn is Initializable, OwnableUpgradeable, IERC20Upgradea
     uint256 private constant LAUNCH_FEE = 3_000;
     uint256 private constant REFLECTION_GROWTH_FACTOR = 100;
     // TODO reconsider supply expansion amount
-    uint256 private constant TOTAL_SUPPLY = 1_428_571_428 ether; /* 30% supply expansion on 1B tokens */
+    uint256 private constant TOTAL_SUPPLY = 1_000_000_000 ether * 13/10; /* 30% supply expansion on 1B tokens */
 
     uint256 private constant B2E_STATIC_BURN_CAP = 1 ether;
     uint256 private constant B2E_SUB_CAP_LIMIT = 0.1 ether;
     uint256 private constant B2E_CAP_DIVISOR = 10;
     // TODO reconsider launch fee duration
-    uint256 private constant LAUNCH_FEE_DURATION = 5 days;
+    uint256 private constant LAUNCH_FEE_DURATION = 0.5 days;
     uint256 private constant BURN_INTERVAL = 2 minutes;
 
-    uint256 private constant MAX_WALLET = TOTAL_SUPPLY / 5;
-    uint256 private constant MAX_TX = TOTAL_SUPPLY / 100;
+    uint256 private constant MIN_MAX_WALLET = TOTAL_SUPPLY / 5;
+    uint256 private constant MIN_MAX_TX = TOTAL_SUPPLY / 100;
 
     uint256 private immutable LAUNCH_TIME;
 
@@ -149,6 +149,9 @@ contract BaseReflectionBurn is Initializable, OwnableUpgradeable, IERC20Upgradea
     uint256 private totalBurnRewards;
     uint256 private totalBurned;
     uint256 private b2eETHbalance;
+
+    uint256 private maxWallet = TOTAL_SUPPLY / 6;
+    uint256 private maxTx = MIN_MAX_TX;
 
     address private _uniswapPair;
     address private marketingFeeReceiver;
@@ -455,14 +458,27 @@ contract BaseReflectionBurn is Initializable, OwnableUpgradeable, IERC20Upgradea
 
     function getMaxWalletAndTx() external view returns(uint, uint) {
         return (
-            baseToReflectionAmount(MAX_WALLET, address(0)),
-            baseToReflectionAmount(MAX_TX, address(0))
+            baseToReflectionAmount(maxWallet, address(0)),
+            baseToReflectionAmount(maxTx, address(0))
         );
     }
 
     /* -------------------------------------------------------------------------- */
     /*                               Access restricted                            */
     /* -------------------------------------------------------------------------- */
+
+    function setExcludeFromLimits(address toExclude, bool targetValue) public onlyOwner {
+        txLimitsExcluded[toExclude] = targetValue ? 1 : 0;
+    }
+
+    function setMaxWalletTransction(
+        uint256 newMaxWallet,
+        uint256 newMaxTx
+    ) public onlyOwner {
+        require(newMaxWallet <= MIN_MAX_WALLET && newMaxTx <= MIN_MAX_TX);
+        maxWallet = newMaxWallet;
+        maxTx = newMaxTx;
+    }
 
     function clearStuckBalance() external payable onlyOwner {
         (bool success, ) = payable(msg.sender).call{
@@ -678,7 +694,7 @@ contract BaseReflectionBurn is Initializable, OwnableUpgradeable, IERC20Upgradea
                 !senderIsPool && 
                 feesEnabled != 0 && 
                 txLimitsExcluded[sender] == 0 && 
-                baseAmount > MAX_TX
+                baseAmount > maxTx
             )
                 revert MaxTransaction();
 
@@ -686,7 +702,7 @@ contract BaseReflectionBurn is Initializable, OwnableUpgradeable, IERC20Upgradea
                 !recipientIsPool && 
                 feesEnabled != 0 &&
                 txLimitsExcluded[recipient] == 0 &&
-                _baseBalance[recipient] + baseAmount > MAX_WALLET
+                _baseBalance[recipient] + baseAmount > maxWallet
             )
                 revert MaxWallet();
 
@@ -717,7 +733,7 @@ contract BaseReflectionBurn is Initializable, OwnableUpgradeable, IERC20Upgradea
             !senderIsPool && 
             feesEnabled != 0 &&
             txLimitsExcluded[sender] == 0 && 
-            baseAmount > MAX_TX
+            baseAmount > maxTx
         )
             revert MaxTransaction();
 
@@ -725,7 +741,7 @@ contract BaseReflectionBurn is Initializable, OwnableUpgradeable, IERC20Upgradea
             feesEnabled != 0 &&
             !recipientIsPool &&
             txLimitsExcluded[recipient] == 0 &&
-            _baseBalance[recipient] + baseAmountReceived > MAX_WALLET
+            _baseBalance[recipient] + baseAmountReceived > maxWallet
         )
             revert MaxWallet();
 
