@@ -100,7 +100,7 @@ contract BaseReflectionBurn is Initializable, OwnableUpgradeable, IERC20Upgradea
 
     uint256 private constant MAX_FEE = 1_000; /* 15% */
     uint256 private constant MAX_BP = 10_000;
-    uint256 private constant LAUNCH_FEE = 3_000;
+    uint256 private constant LAUNCH_FEE = 1_500;
     uint256 private constant REFLECTION_GROWTH_FACTOR = 100;
     // TODO reconsider supply expansion amount
     uint256 private constant TOTAL_SUPPLY = 1_000_000_000 ether * 13/10; /* 30% supply expansion on 1B tokens */
@@ -239,6 +239,9 @@ contract BaseReflectionBurn is Initializable, OwnableUpgradeable, IERC20Upgradea
 
         txLimitsExcluded[address(this)] = 1;
         txLimitsExcluded[treasuryReceiver] = 1;
+        txLimitsExcluded[marketingFeeReceiver] = 1;
+        txLimitsExcluded[lpFeeReceiver] = 1;
+        txLimitsExcluded[buybackFeeReceiver] = 1;
 
         // add desired amount of liquidity to pair
         UNISWAP_V2_ROUTER.addLiquidityETH{value: msg.value}(
